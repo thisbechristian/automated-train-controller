@@ -1,0 +1,14 @@
+<ivy-module version="2.0">
+	<info organisation="org.ecotrack" module="CTCOffice" />
+	<dependencies>
+		<dependency org="org.apache.pdfbox" name="pdfbox" rev="1.8.10" />
+		<dependency org="org.bouncycastle" name="bcprov-jdk15" rev="1.44" />
+		<dependency org="org.bouncycastle" name="bcmail-jdk15" rev="1.44" />
+		<dependency org="com.ibm.icu" name="icu4j" rev="3.8" />
+		<dependency org="org.tmatesoft.sqljet" name="sqljet" rev="1.1.10" />
+		<dependency org="javax.help" name="javahelp" rev="2.0.05"/>
+		<dependency org="org.apache.commons" name="commons-jexl" rev="2.1.1"/>
+		<dependency org="commons-logging" name="commons-logging" rev="1.2"/>
+		<dependency org="org.python" name="jython" rev="2.7.0"/>
+	</dependencies>
+</ivy-module>

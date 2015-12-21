@@ -1,0 +1,125 @@
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="AutomaticTrainController" basedir="." default="main">
+	<target name="clean">
+		<delete dir="bin" />
+	</target>
+
+  <target name="resolve" description="--> retrieve dependencies with ivy">
+		<ivy:retrieve />
+	</target>
+
+	<target name="prepare">
+		<mkdir dir="bin" />
+		<mkdir dir="bin/images" />
+
+		<copy todir="bin/images">
+			<fileset dir="images" />
+		</copy>
+	</target>
+
+	<target name="copy_plc">
+		<copy todir="bin/resources">
+			<fileset dir="resources" />
+		</copy>
+	</target>
+
+	<path id="lib">
+		<fileset dir="lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<target name="compile" depends="prepare">
+		<javac includeantruntime="false" srcdir="src" destdir="bin" debug="yes">
+      <classpath refid="lib">
+      </classpath>
+    </javac>
+	</target>
+
+	<target name="track_model" depends="compile">
+		<jar destfile="bin/TrackModel.jar"
+			 basedir="bin"
+			 excludes="**/*.jar **/lib/**/">
+			<manifest>
+				<attribute name="Main-Class" value="org.ecotrack.automatictraincontroller.trackmodel.GUI" />
+				<attribute name="Implementation-Version" value="0.0" />
+				<attribute name="SplashScreen-Image" value="images/splash.gif" />
+				<attribute name="Sealed" value="true" />
+				<attribute name="Class-Path" value="." />
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- TODO Implement GUI for train model. -->
+	<target name="train_model" depends="compile">
+		<jar destfile="bin/TrainModel.jar"
+			 basedir="bin"
+			 excludes="**/*.jar **/lib/**/">
+			<manifest>
+				<attribute name="Main-Class" value="org.ecotrack.automatictraincontroller.trainmodel.TrainModel" />
+				<attribute name="Implementation-Version" value="0.0" />
+				<attribute name="SplashScreen-Image" value="images/splash.gif" />
+				<attribute name="Sealed" value="true" />
+				<attribute name="Class-Path" value="." />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="track_controller" depends="compile,copy_plc">
+		<jar destfile="bin/TrackController.jar"
+			 basedir="bin"
+			 excludes="**/*.jar **/lib/**/">
+			<manifest>
+				<attribute name="Main-Class" value="org.ecotrack.automatictraincontroller.trackcontroller.TrackControllerUILogin" />
+				<attribute name="Implementation-Version" value="0.0" />
+				<attribute name="SplashScreen-Image" value="images/splash.gif" />
+				<attribute name="Sealed" value="true" />
+				<attribute name="Class-Path" value=". lib/commons-jexl-2.1.1.jar lib/jython-2.7.0.jar lib/commons-logging-1.1.1.jar" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="train_controller" depends="compile">
+		<jar destfile="bin/TrainController.jar"
+			 basedir="bin"
+			 excludes="**/*.jar **/lib/**/">
+			<manifest>
+				<attribute name="Main-Class" value="org.ecotrack.automatictraincontroller.traincontroller.GUI" />
+				<attribute name="Implementation-Version" value="0.0" />
+				<attribute name="SplashScreen-Image" value="images/splash.gif" />
+				<attribute name="Sealed" value="true" />
+				<attribute name="Class-Path" value="." />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="ctc" depends="compile">
+		<jar destfile="bin/CTCOffice.jar"
+			 basedir="bin"
+			 excludes="**/*.jar **/lib/**/">
+			<manifest>
+				<attribute name="Main-Class" value="org.ecotrack.automatictraincontroller.ctc.CTCOffice" />
+				<attribute name="Implementation-Version" value="0.0" />
+				<attribute name="SplashScreen-Image" value="images/splash.gif" />
+				<attribute name="Sealed" value="true" />
+				<attribute name="Class-Path" value="." />
+				<!-- <attribute name="Class-Path" value=". lib/flamingo.jar lib/trident.jar lib/idw.jar lib/SHEF/SHEF.jar lib/SHEF/lib/jtidy-8.0.jar lib/SHEF/lib/novaworx-syntax-0.0.7.jar lib/SHEF/lib/sam.jar lib/getopt.jar" /> -->
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="atc" depends="compile,copy_plc">
+		<jar destfile="bin/AutomaticTrainController.jar"
+			 basedir="bin"
+			 excludes="**/*.jar **/lib/**/">
+			<manifest>
+				<attribute name="Main-Class" value="org.ecotrack.automatictraincontroller.AutomaticTrainController" />
+				<attribute name="Implementation-Version" value="0.0" />
+				<attribute name="SplashScreen-Image" value="images/splash.gif" />
+				<attribute name="Sealed" value="true" />
+				<attribute name="Class-Path" value=". lib/commons-jexl-2.1.1.jar lib/jython-2.7.0.jar lib/commons-logging-1.1.1.jar" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="main" depends="atc" />
+</project>
